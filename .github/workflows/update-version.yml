@@ -16,7 +16,7 @@ jobs:
       - name: 🔍 Ler e atualizar a versão do tema
         run: |
           FILE="version.json"
-          THEME_NAME=$(jq -r '.themeName' $FILE)  # Lê o nome do tema
+          THEME_NAME="NewUI"
           VERSION=$(jq -r '.version' $FILE)
 
           MAJOR=$(echo $VERSION | cut -d. -f1)
