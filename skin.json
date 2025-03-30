@@ -224,6 +224,10 @@
   "author": "Yoshi-devLAB",
   "description": "A sleek and elegant theme that brings a darker, more immersive experience to your Steam client.",
   "name": "NewUI",
+  "github": {
+        "owner": "yoshi-devLAB",
+        "repo_name": "NewUI"
+    },
   "tags": [
     "Minimal",
     "Dark",
