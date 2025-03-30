@@ -3,7 +3,7 @@
     * @name Light Color
     * @description Button Colors (used in some webkit element)
     */
-    --color-light: rgb(5, 5, 5);
+    --color-light: rgb(48, 48, 48);
     /** 
     * @name Dark Color
     * @description TitleBar, TitleBar Buttons, Library <div> background, Scrollbar (used in some webkit element)
@@ -13,7 +13,7 @@
     * @name Darker Color
     * @description Main Background, Library and TitleBar accent (used in some webkit element)
     */
-    --color-darker: #000000;
+    --color-darker: #191919;
     /** 
     * @name Darkest Color
     * @description Low priority accent color (used in some webkit element)
