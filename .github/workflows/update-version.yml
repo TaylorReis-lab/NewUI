@@ -1,0 +1,49 @@
+name: Atualizar versão do tema
+
+on:
+  push:
+    branches:
+      - main  # Sempre que houver commit na branch principal
+
+jobs:
+  update_version:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Clonar o repositório
+        uses: actions/checkout@v3
+
+      - name: 🔍 Ler e atualizar a versão do tema
+        run: |
+          FILE="version.json"
+          THEME_NAME="NewUI"
+          VERSION=$(jq -r '.version' $FILE)
+
+          MAJOR=$(echo $VERSION | cut -d. -f1)
+          MINOR=$(echo $VERSION | cut -d. -f2)
+
+          NEW_VERSION="$MAJOR.$((MINOR + 1))"
+
+          jq --arg new_version "$NEW_VERSION" '.version = $new_version' $FILE > tmp.json && mv tmp.json $FILE
+          
+          echo "THEME_NAME=$THEME_NAME" >> $GITHUB_ENV
+          echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
+
+      - name: 📝 Commitar e enviar a nova versão
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "actions@github.com"
+          git add version.json
+          git commit -m "🔄 Atualizando versão para $NEW_VERSION"
+          git push
+
+      - name: 🚀 Criar ou atualizar a release mais recente
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ env.NEW_VERSION }}
+          name: "${{ env.THEME_NAME }} - Versão ${{ env.NEW_VERSION }}"
+          body: "🚀 Nova versão do tema **${{ env.THEME_NAME }}** disponível! 🎨🔥"
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
