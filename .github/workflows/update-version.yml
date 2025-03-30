@@ -16,6 +16,7 @@ jobs:
       - name: 🔍 Ler e atualizar a versão do tema
         run: |
           FILE="version.json"
+          THEME_NAME=$(jq -r '.themeName' $FILE)  # Lê o nome do tema
           VERSION=$(jq -r '.version' $FILE)
 
           MAJOR=$(echo $VERSION | cut -d. -f1)
@@ -25,6 +26,7 @@ jobs:
 
           jq --arg new_version "$NEW_VERSION" '.version = $new_version' $FILE > tmp.json && mv tmp.json $FILE
           
+          echo "THEME_NAME=$THEME_NAME" >> $GITHUB_ENV
           echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
 
       - name: 📝 Commitar e enviar a nova versão
@@ -35,20 +37,12 @@ jobs:
           git commit -m "🔄 Atualizando versão para $NEW_VERSION"
           git push
 
-      - name: 🗑 Remover release e tag anteriores (se existirem)
-        run: |
-          gh release delete v${{ env.NEW_VERSION }} --yes || true
-          git tag -d v${{ env.NEW_VERSION }} || true
-          git push origin --delete v${{ env.NEW_VERSION }} || true
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: 🚀 Criar nova release
+      - name: 🚀 Criar ou atualizar a release mais recente
         uses: softprops/action-gh-release@v1
         with:
           tag_name: v${{ env.NEW_VERSION }}
-          name: "Versão ${{ env.NEW_VERSION }}"
-          body: "🚀 Nova versão do tema disponível!"
+          name: "${{ env.THEME_NAME }} - Versão ${{ env.NEW_VERSION }}"
+          body: "🚀 Nova versão do tema **${{ env.THEME_NAME }}** disponível! 🎨🔥"
           draft: false
           prerelease: false
         env:
