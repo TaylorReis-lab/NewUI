@@ -227,6 +227,9 @@
     "repo_name": "NewUI"
   },
   "tags": ["Minimal", "Dark", "Sleek", "Compact"],
-  "version": "1.0"
+  "TargetJs": {
+    "affects": ["^Steam$"],
+    "src": "scripts/update.js"
+}
 }
  
