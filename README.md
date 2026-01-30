@@ -1,5 +1,5 @@
 <div align="center">
-## NewUI
+## NewUI - Tema Dark Minimalista para Steam
 A break from Steam's new eye-straining theme.
 
 If you enjoy this theme, please consider starring the project ⭐
